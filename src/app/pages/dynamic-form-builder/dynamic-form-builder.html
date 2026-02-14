@@ -1,0 +1,15 @@
+<form [formGroup]="form" (submit)="submitForm()" class="p-5">
+  @for (field of formBuilderService.config; track $index) {
+    <!-- <app-text-input [inputDefinition]="item"></app-text-input> -->
+    <div>
+      <label for="first-name" class="block text-sm/6 font-semibold text-gray-900">{{
+        field.label
+      }}</label>
+      <mat-form-field appearance="outline">
+        <input matInput [formControlName]="field.name" [placeholder]="field.placeholder ?? ''" />
+        <mat-hint>{{ field.hint }}</mat-hint>
+      </mat-form-field>
+    </div>
+  }
+  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+</form>
