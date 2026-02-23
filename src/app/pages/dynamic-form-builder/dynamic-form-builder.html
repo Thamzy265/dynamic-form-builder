@@ -5,7 +5,7 @@
       id="toolboxList"
       cdkDropList
       [cdkDropListConnectedTo]="['formList']"
-      [cdkDropListData]="formBuilderService.fieldTypes"
+      [cdkDropListData]="fieldTypes"
       class="flex flex-col gap-2"
     >
       @for (fieldType of fieldTypes; track $index) {
@@ -27,21 +27,25 @@
       (submit)="submitForm()"
     >
       @for (field of formBuilderService.config; track $index) {
-        <!-- <app-text-input [inputDefinition]="field"></app-text-input> -->
-        <div class="">
-          <div class="flex justify-between items-center mb-1">
-            <label for="{{ field.key }}" class="block text-sm/normal font-semibold text-gray-900">{{
-              field.label
-            }}</label>
-            <button (click)="removeField(field.key)" matIconButton aria-label="Delete Field">
-              <mat-icon>close</mat-icon>
-            </button>
+        @if (textLikeInputTypes.includes(field.type)) {
+          <app-text-input [field]="field" [form]="form"></app-text-input>
+        } @else if (inputTypes.SELECT == field.type) {
+          <app-select-input [field]="field" [form]="form"></app-select-input>
+        } @else if (dateLikeInputTypes.includes(field.type)) {
+          <app-date-input [field]="field" [form]="form"></app-date-input>
+        } @else if (inputTypes.CHECKBOX == field.type) {
+          <app-checkbox-input [field]="field" [form]="form"></app-checkbox-input>
+        } @else if (inputTypes.RADIO == field.type) {
+          <app-radio-input [field]="field" [form]="form"></app-radio-input>
+        } @else if (inputTypes.HEADER == field.type) {
+          <h3 class="text-lg font-bold mb-4">{{ field.label }}</h3>
+        } @else if (inputTypes.PARAGRAPH == field.type) {
+          <p class="mb-4">{{ field.label }}</p>
+        } @else {
+          <div class="p-4 bg-red-100 text-red-700 rounded">
+            Unsupported field type: {{ field.type }}
           </div>
-          <mat-form-field appearance="outline" class="w-full transform scale-100 origin-top-left">
-            <input matInput [formControlName]="field.key" [placeholder]="field.placeholder ?? ''" />
-            <mat-hint>{{ field.hint }}</mat-hint>
-          </mat-form-field>
-        </div>
+        }
       }
 
       <!-- Drop Zone Card -->
@@ -67,7 +71,7 @@
           <p class="text-sm text-gray-500">Drag and drop items to this zone</p>
         </div>
       </div>
-      <!-- <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button> -->
+      <!-- End Drop Zone Card -->
     </form>
   </div>
   <div class="col-span-3 bg-white p-5 rounded-lg">

@@ -74,7 +74,11 @@ export class FormBuilder {
     this.config.push(field);
   }
 
-  removeField(fieldName: string) {
-    this.config = this.config.filter((field) => field.key !== fieldName);
+  removeField(key: string) {
+    this.config = this.config.filter((field) => field.key !== key);
+  }
+
+  updateField(key: string, updatedField: InputDefinition) {
+    this.config = this.config.map((field) => (field.key === key ? updatedField : field));
   }
 }

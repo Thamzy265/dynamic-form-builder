@@ -14,7 +14,7 @@ export const fieldTypes = [
   { label: 'Select', value: InputTypes.SELECT, icon: 'list' },
   { label: 'Date', value: InputTypes.DATE, icon: 'calendar_today' },
   { label: 'Date Time', value: InputTypes.DATETIME, icon: 'schedule' },
-  { label: 'Radio', value: InputTypes.RADIO, icon: 'radio_button_checked' },
+  // { label: 'Radio', value: InputTypes.RADIO, icon: 'radio_button_checked' },
   { label: 'Checkbox', value: InputTypes.CHECKBOX, icon: 'check_box' },
   { label: 'Header', value: InputTypes.HEADER, icon: 'title' },
   { label: 'Paragraph', value: InputTypes.PARAGRAPH, icon: 'format_paragraph' },

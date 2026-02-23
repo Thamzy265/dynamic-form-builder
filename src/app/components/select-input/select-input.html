@@ -1,0 +1,13 @@
+<div [formGroup]="form()!">
+  <label for="{{ field().key }}" class="block text-sm/normal font-semibold text-gray-900">{{
+    field().label
+  }}</label>
+  <mat-form-field class="w-full transform scale-100 origin-top-left">
+    <mat-select [formControlName]="field().key">
+      @for (item of field().options; track $index) {
+        <mat-option [value]="item.value">{{ item.label }}</mat-option>
+      }
+    </mat-select>
+    <mat-hint>{{ field().hint ?? '' }}</mat-hint>
+  </mat-form-field>
+</div>

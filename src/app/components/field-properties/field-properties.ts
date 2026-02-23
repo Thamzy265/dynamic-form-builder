@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
+import InputDefinition, { InputTypes } from '../../model/input-definition';
 
 @Component({
   selector: 'app-field-properties',
@@ -22,6 +24,7 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
     MatButtonModule,
     MatIconModule,
     MatSlideToggle,
+    MatCardModule,
   ],
   templateUrl: './field-properties.html',
   styleUrl: './field-properties.css',
@@ -31,7 +34,7 @@ export class FieldProperties {
   private fb = inject(FormBuilder);
 
   propertiesForm!: FormGroup;
-  selectedField: any = null;
+  selectedField: InputDefinition | null = null;
 
   constructor() {
     effect(() => {
@@ -46,14 +49,15 @@ export class FieldProperties {
 
   buildPropertiesForm() {
     const propertiesFormControls: any = {};
-
-    propertiesFormControls['label'] = new FormControl(this.selectedField.label);
-    propertiesFormControls['key'] = new FormControl(this.selectedField.key);
-    propertiesFormControls['description'] = new FormControl(this.selectedField.description);
-    propertiesFormControls['placeholder'] = new FormControl(this.selectedField.placeholder);
-    propertiesFormControls['type'] = new FormControl(this.selectedField.type);
-    propertiesFormControls['required'] = new FormControl(this.selectedField.required);
-    propertiesFormControls['options'] = this.fb.array([]);
+    propertiesFormControls['label'] = new FormControl(this.selectedField?.label);
+    propertiesFormControls['key'] = new FormControl(this.selectedField?.key);
+    propertiesFormControls['description'] = new FormControl(this.selectedField?.description);
+    propertiesFormControls['placeholder'] = new FormControl(this.selectedField?.placeholder);
+    propertiesFormControls['type'] = new FormControl(this.selectedField?.type);
+    propertiesFormControls['required'] = new FormControl(this.selectedField?.required);
+    if (this.showOptions()) {
+      propertiesFormControls['options'] = this.fb.array([]);
+    }
 
     this.propertiesForm = this.fb.group(propertiesFormControls);
   }
@@ -76,10 +80,24 @@ export class FieldProperties {
   }
 
   saveProperties() {
-    console.log('Saving properties for field', this.formBuilderService.selectedField);
-    console.log('Properties form value', this.propertiesForm.value);
+    this.formBuilderService.updateField(this.selectedField?.key!, this.propertiesForm.value);
   }
+
   cancelProperties() {
     this.propertiesForm.reset();
+  }
+
+  showOptions(): boolean {
+    return (
+      this.selectedField?.type === InputTypes.SELECT ||
+      this.selectedField?.type === InputTypes.RADIO
+    );
+  }
+
+  isDisplayField(): boolean {
+    return (
+      this.selectedField?.type === InputTypes.HEADER ||
+      this.selectedField?.type === InputTypes.PARAGRAPH
+    );
   }
 }

@@ -3,9 +3,9 @@
     <label for="{{ field().key }}" class="block text-sm/normal font-semibold text-gray-900">{{
       field().label
     }}</label>
-    <button (click)="removeField.emit(field().key)" matIconButton aria-label="Delete Field">
+    <!-- <button (click)="removeField.emit(field().key)" matIconButton aria-label="Delete Field">
       <mat-icon>close</mat-icon>
-    </button>
+    </button> -->
   </div>
   <mat-form-field appearance="outline" class="w-full transform scale-100 origin-top-left">
     <input
@@ -13,7 +13,10 @@
       [type]="field().type"
       [formControlName]="field().key"
       [placeholder]="field().placeholder ?? ''"
+      [matDatepicker]="picker"
     />
     <mat-hint>{{ field().hint ?? '' }}</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker [touchUi]="true"></mat-datepicker>
   </mat-form-field>
 </div>

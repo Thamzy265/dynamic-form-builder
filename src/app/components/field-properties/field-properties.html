@@ -2,49 +2,66 @@
 
 @if (selectedField) {
   <form [formGroup]="propertiesForm" (submit)="saveProperties()" (reset)="cancelProperties()">
-    <mat-form-field class="w-full">
-      <mat-label>Key</mat-label>
-      <input type="text" formControlName="key" matInput />
-    </mat-form-field>
-    <mat-form-field class="w-full">
-      <mat-label>Label</mat-label>
-      <input type="text" formControlName="label" matInput />
-    </mat-form-field>
-    <mat-form-field class="w-full">
-      <mat-label>Placeholder</mat-label>
-      <input type="text" formControlName="placeholder" matInput />
-    </mat-form-field>
-    <mat-form-field class="w-full">
-      <mat-label>Description</mat-label>
-      <textarea type="text" formControlName="description" matInput></textarea>
-    </mat-form-field>
-    <mat-slide-toggle formControlName="required">Required</mat-slide-toggle>
-    <div formArrayName="options" class="mt-2 mb-2">
-      <label for="" class="block text-sm font-medium text-gray-700">Options</label>
-      @for (item of optionsArray.controls; track $index) {
-        <div class="flex gap-2 mt-1" [formGroupName]="$index">
-          <mat-form-field class="w-full">
-            <mat-label>Value</mat-label>
-            <input type="text" formControlName="value" matInput />
-          </mat-form-field>
-          <mat-form-field class="w-full">
-            <mat-label>Label</mat-label>
-            <input type="text" formControlName="label" matInput />
-          </mat-form-field>
-          <button
-            (click)="removeOption($index)"
-            mat-icon-button
-            color="warn"
-            aria-label="delete option"
-          >
-            <mat-icon style="color: #ef4444">delete</mat-icon>
-          </button>
-        </div>
-      }
-      <button (click)="addOption()" matButton="outlined">Add Option</button>
-    </div>
+    @if (!isDisplayField()) {
+      <mat-form-field class="w-full">
+        <mat-label>Key</mat-label>
+        <input type="text" formControlName="key" matInput />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Label</mat-label>
+        <input type="text" formControlName="label" matInput />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Placeholder</mat-label>
+        <input type="text" formControlName="placeholder" matInput />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Description</mat-label>
+        <textarea type="text" formControlName="description" matInput></textarea>
+      </mat-form-field>
+      <mat-slide-toggle formControlName="required">Required</mat-slide-toggle>
+    } @else {
+      <mat-form-field class="w-full">
+        <mat-label>Text</mat-label>
+        <textarea type="text" formControlName="label" matInput></textarea>
+      </mat-form-field>
+    }
+    @if (showOptions()) {
+      <mat-card appearance="outlined" class="mt-4">
+        <mat-card-header>
+          <mat-card-title>Options</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div formArrayName="options" class="mt-2 mb-2">
+            @for (item of optionsArray.controls; track $index) {
+              <div class="flex gap-2 mt-1" [formGroupName]="$index">
+                <mat-form-field class="w-full">
+                  <mat-label>Value</mat-label>
+                  <input type="text" formControlName="value" matInput />
+                </mat-form-field>
+                <mat-form-field class="w-full">
+                  <mat-label>Label</mat-label>
+                  <input type="text" formControlName="label" matInput />
+                </mat-form-field>
+                <button
+                  (click)="removeOption($index)"
+                  mat-icon-button
+                  color="warn"
+                  aria-label="delete option"
+                >
+                  <mat-icon style="color: #ef4444">delete</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+        <mat-card-footer class="p-5">
+          <button (click)="addOption()" mat-button>Add Option</button>
+        </mat-card-footer>
+      </mat-card>
+    }
     <div>
-      <button type="submit" mat-raised-button color="primary" class="mt-4">Save</button>
+      <button type="submit" mat-raised-button class="mt-4">Save</button>
       <button type="reset" mat-button class="mt-4 ml-2">Cancel</button>
     </div>
   </form>

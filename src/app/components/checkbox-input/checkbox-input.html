@@ -1,0 +1,6 @@
+<div [formGroup]="form()!">
+  <mat-checkbox [formControlName]="field().key">
+    {{ field().label }}
+  </mat-checkbox>
+  <small class="text-gray-500 ml-7">{{ field().hint ?? '' }}</small>
+</div>

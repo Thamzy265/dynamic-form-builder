@@ -14,6 +14,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FieldProperties } from '../../components/field-properties/field-properties';
 import { fieldTypes } from '../../model/field-types';
+import { TextInput } from '../../components/text-input/text-input';
+import InputDefinition, { InputType, InputTypes } from '../../model/input-definition';
+import { SelectInput } from '../../components/select-input/select-input';
+import { DateInput } from '../../components/date-input/date-input';
+import { CheckboxInput } from '../../components/checkbox-input/checkbox-input';
+import { RadioInput } from '../../components/radio-input/radio-input';
 
 @Component({
   selector: 'app-dynamic-form-builder',
@@ -25,6 +31,11 @@ import { fieldTypes } from '../../model/field-types';
     MatButtonModule,
     MatIconModule,
     FieldProperties,
+    TextInput,
+    SelectInput,
+    DateInput,
+    CheckboxInput,
+    RadioInput,
   ],
   templateUrl: './dynamic-form-builder.html',
   styleUrl: './dynamic-form-builder.css',
@@ -38,6 +49,15 @@ export class DynamicFormBuilder implements OnInit {
   selectedField: any = null;
   selectOptions: any[] = [];
   fieldTypes = fieldTypes;
+  inputTypes = InputTypes;
+
+  textLikeInputTypes: InputType[] = [
+    InputTypes.TEXT,
+    InputTypes.EMAIL,
+    InputTypes.NUMBER,
+    InputTypes.PASSWORD,
+  ];
+  dateLikeInputTypes: InputType[] = [InputTypes.DATE, InputTypes.DATETIME];
 
   ngOnInit(): void {
     this.buildForm();
@@ -56,11 +76,11 @@ export class DynamicFormBuilder implements OnInit {
   }
 
   addField(event: CdkDragDrop<any[]>) {
-    const id = crypto.randomUUID();
     var data = event.previousContainer.data[event.previousIndex];
     const fieldType = { ...data };
-    fieldType.field.key = id;
-    fieldType.field.label = `New ${fieldType.label} ${this.formBuilderService.config.length + 1}`;
+    const count = this.formBuilderService.config.length + 1;
+    fieldType.field.key = `field-${count}`;
+    fieldType.field.label += `${count}`;
     this.formBuilderService.addField(fieldType.field);
     this.form.addControl(fieldType.field.key, new FormControl(fieldType.field.value));
     this.formBuilderService.setSelectedField(fieldType.field);
