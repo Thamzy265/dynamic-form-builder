@@ -1,0 +1,18 @@
+<h3 class="text-lg font-semibold mb-4">Field Types</h3>
+<div
+  id="fieldTypesList"
+  cdkDropList
+  [cdkDropListConnectedTo]="['formList']"
+  [cdkDropListData]="fieldTypes"
+  class="flex flex-col gap-2"
+>
+  @for (fieldType of fieldTypes; track $index) {
+    <div
+      cdkDrag
+      class="px-4 py-2 border-gray-300 border-1 rounded cursor-pointer flex items-center"
+    >
+      <mat-icon class="mr-2" [fontIcon]="fieldType.icon"></mat-icon>
+      {{ fieldType.label }}
+    </div>
+  }
+</div>

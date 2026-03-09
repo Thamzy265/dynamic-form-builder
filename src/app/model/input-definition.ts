@@ -23,8 +23,16 @@ export const InputTypes = {
   PASSWORD: 'password',
   HEADER: 'header',
   PARAGRAPH: 'paragraph',
+  ROW: 'row',
 } as const;
 
 export type InputType = (typeof InputTypes)[keyof typeof InputTypes];
+
+export interface RowContainer {
+  type: InputType;
+  fields: FormItem[];
+}
+
+export type FormItem = InputDefinition | RowContainer;
 
 export default InputDefinition;

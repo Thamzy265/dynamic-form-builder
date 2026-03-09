@@ -15,11 +15,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { FieldProperties } from '../../components/field-properties/field-properties';
 import { fieldTypes } from '../../model/field-types';
 import { TextInput } from '../../components/text-input/text-input';
-import InputDefinition, { InputType, InputTypes } from '../../model/input-definition';
+import InputDefinition, {
+  FormItem,
+  InputType,
+  InputTypes,
+  RowContainer,
+} from '../../model/input-definition';
 import { SelectInput } from '../../components/select-input/select-input';
 import { DateInput } from '../../components/date-input/date-input';
 import { CheckboxInput } from '../../components/checkbox-input/checkbox-input';
 import { RadioInput } from '../../components/radio-input/radio-input';
+import { FieldTypesList } from '../../components/field-types-list/field-types-list';
+import { isInputDefinition, isRowContainer } from '../../utils/util';
 
 @Component({
   selector: 'app-dynamic-form-builder',
@@ -36,6 +43,7 @@ import { RadioInput } from '../../components/radio-input/radio-input';
     DateInput,
     CheckboxInput,
     RadioInput,
+    FieldTypesList,
   ],
   templateUrl: './dynamic-form-builder.html',
   styleUrl: './dynamic-form-builder.css',
@@ -58,6 +66,9 @@ export class DynamicFormBuilder implements OnInit {
     InputTypes.PASSWORD,
   ];
   dateLikeInputTypes: InputType[] = [InputTypes.DATE, InputTypes.DATETIME];
+
+  isInputDefinition = isInputDefinition;
+  isRowContainer = isRowContainer;
 
   ngOnInit(): void {
     this.buildForm();
@@ -86,8 +97,8 @@ export class DynamicFormBuilder implements OnInit {
     this.formBuilderService.setSelectedField(fieldType.field);
   }
 
-  removeField(fieldName: string) {
-    // this.formBuilderService.removeField(fieldName);
-    // this.form.removeControl(fieldName);
+  removeField(key: string) {
+    this.formBuilderService.removeField(key);
+    this.form.removeControl(key);
   }
 }

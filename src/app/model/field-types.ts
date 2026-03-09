@@ -17,7 +17,7 @@ export const fieldTypes = [
   // { label: 'Radio', value: InputTypes.RADIO, icon: 'radio_button_checked' },
   { label: 'Checkbox', value: InputTypes.CHECKBOX, icon: 'check_box' },
   { label: 'Header', value: InputTypes.HEADER, icon: 'title' },
-  { label: 'Paragraph', value: InputTypes.PARAGRAPH, icon: 'format_paragraph' },
+  { label: 'Paragraph', value: InputTypes.PARAGRAPH, icon: 'text_format' },
 ].map((t) => ({
   ...t,
   field: createField(t.value),
